@@ -14,7 +14,7 @@ const routes = [
         path: '/scan',
         name: 'Scan',
         component: () => import('../views/Scan'),
-        meta: {title: 'Сканирование', layout: 'Empty'},
+        meta: {title: 'Сканирование', layout: 'Main'},
     }
 ]
 

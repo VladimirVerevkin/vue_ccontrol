@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table>
+    <table class="menu_table">
       <tr>
         <td>
           <router-link to="/">Главная</router-link>
@@ -10,8 +10,6 @@
         </td>
       </tr>
     </table>
-
-
   </div>
 </template>
 
@@ -22,5 +20,8 @@ export default {
 </script>
 
 <style scoped>
-
+td, th {
+  height: 20px;
+  padding: 20px;
+}
 </style>

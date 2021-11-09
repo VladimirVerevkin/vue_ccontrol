@@ -1,6 +1,7 @@
 <template>
   <div>
     <MainMenu/>
+    <hr>
     <router-view/>
   </div>
 </template>

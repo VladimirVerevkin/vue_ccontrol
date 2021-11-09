@@ -1,18 +1,18 @@
 <template>
   <div>
-    <table class="main_table">
+    <table class="THR_table">
       <tr>
-        <td colspan="2">Датчик</td>
+        <td colspan="2" class="link" @click="$emit('clickOnTitle', sensor_data.title ) ">{{ sensor_data.title }}</td>
       </tr>
       <tr>
-        <td rowspan="2"><span class="cell">{{ sensor_data.temper }}</span></td>
-        <td>45</td>
+        <td rowspan="2"><span class="cell">{{ sensor_data.temper }} &#x2103</span></td>
+        <td class="setParm" @click="$emit('clickOnTemper', sensor_data.setTemper )">{{ sensor_data.setTemper }} &#x2103</td>
       </tr>
       <tr>
-        <td>{{ sensor_data.setHumid }}</td>
+        <td>{{ sensor_data.setHumid }} %</td>
       </tr>
       <tr>
-        <td rowspan="2">{{ sensor_data.humid }}</td>
+        <td rowspan="2"><span class="cell">{{ sensor_data.humid }} %</span></td>
         <td>{{ sensor_data.statusRele }}</td>
       </tr>
       <tr>
@@ -25,35 +25,64 @@
 <script>
 export default {
   props: {
-    sensor_data: Object
+    sensor_data: Object,
   },
   data: () => ({
-    // sensor_data: {
-    //   temper: 10,
-    //   set_temper: 20,
-    //   humid: 75,
-    //   set_humid: 85,
-    //   status_rele: 'on',
-    //   control_rele: 'temper'
-    // }
-  })
+    htrtest:'title45646'
+  }),
+  methods: {
+    // updateTitleSensor() {
+    //   this.$emit("clickOnTitle", this.sensor_data.sensor_id)
+    // },
+    updateSetTemp() {
+
+    },
+    updateSetHumid() {
+
+    },
+    updateControl() {
+
+    },
+    updateStatus() {
+
+    }
+  },
+  mounted() {
+    console.log(this.sensor_data)
+  }
 }
 </script>
 
 
 <style scoped>
-.main_table {
+.THR_table {
   background-color: #eeeeee;
-  border: 1px solid black;
-  border-spacing: 7px 5px; /* Расстояние между границ */
+  border: 3px solid black;
+  margin: 5px;
 }
 
 td, th {
   background-color: #42b983;
-  height: 40px;
+  height: 30px;
+  width: 30%;
+  border: 1px solid black;
+}
+.setParm {
+  cursor: pointer;
+}
+.setParm:hover {
+  font-weight: bold;
+}
+.link {
+  cursor: pointer;
+}
+
+.link:hover {
+  font-weight: bold;
 }
 
 .cell {
-  padding: 10px;
+  font-size: 30px;
+  font-weight: bold;
 }
 </style>
