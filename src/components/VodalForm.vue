@@ -1,42 +1,48 @@
 <template>
-  <div v-if="vodalKeyBlock === this.vodalTitle">
-    <h4> Задать имя датчика </h4>
-    <p>{{ vodalPropsData.title }}</p>
-    <input type="text" placeholder="ввести новое значение" />
-    <button class="vodal-ok-btn" v-on:click="vodalOkClick">ok</button>
-    <button class="vodal-cancel-btn">close</button>
-  </div>
-  <div v-else-if="vodalKeyBlock === this.vodalTemper">
-    <h4> Температура </h4>
-    <p>{{vodalPropsData.setTemper}}</p>
-    <input type="text" placeholder="ввести новое значение" value="789"/>
-    <button class="vodal-ok-btn">ok</button>
-    <button class="vodal-cancel-btn">close</button>
-  </div>
-
+  <vodal :show="show" animation="rotate">
+    <ul> {{ vo }}</ul>
+<!--    <input type="text" v-on:input="vodalInput" v-bind:value="dataValue"/>-->
+    <input type="text" v-model="valueInput"/>
+    <button class="vodal-confirm-btn " v-on:click="$emit('upd',[vodalPropsData.sensor_id, valueInput])">ok</button>
+    <button class="vodal-cancel-btn" v-on:click="$emit('clear')">close</button>
+  </vodal>
 </template>
 
 <script>
 export default {
   name: "VodalForm",
   props: {
-    vodalPropsData: {},
-    vodalKeyBlock:'',
+    valueInput: '',
+    vodalPropsData: {
+      title: '',
+      setTemper: 0,
+
+    },
+    vodalPropsText: '',
+    show: false,
   },
   data: () => ({
-    valueInput: 'khhkhk',
+    // valueInput: '',
     vodalTitle: 'title',
     vodalTemper: 'temper',
-
+    dataVolue: '',
   }),
 
-  methods:{
+  methods: {
     vodalOkClick() {
       this.valueInput = 'vodalOkClick'
-
       this.$emit('upd')
       console.log(this.valueInput)
-    }
+    },
+    vodalInput(value) {
+      console.log(value.target.value)
+      this.valueInput = value.target.value
+    },
+
+  },
+  created() {
+    this.vo = 'mounted Vodal'
+    console.log(this.vo)
   }
 
 }

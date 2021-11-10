@@ -1,12 +1,12 @@
 <template>
   <div>
-    <table class="THR_table">
+    <table class="THR_table" name="table">
       <tr>
-        <td colspan="2" class="link" @click="$emit('clickOnTitle', sensor_data.title ) ">{{ sensor_data.title }}</td>
+        <td colspan="2" class="link" data-field="title" @click="$emit('clickOnTitle',sensor_data, $event)"> {{ sensor_data.title }} </td>
       </tr>
       <tr>
-        <td rowspan="2"><span class="cell">{{ sensor_data.temper }} &#x2103</span></td>
-        <td class="setParm" @click="$emit('clickOnTemper', sensor_data.setTemper )">{{ sensor_data.setTemper }} &#x2103</td>
+        <td rowspan="2"><span class="cell"> {{ sensor_data.temper }} &#x2103</span></td>
+        <td class="setParm" @click="$emit('clickOnTemper', sensor_data)">{{ sensor_data.setTemper }} &#x2103</td>
       </tr>
       <tr>
         <td>{{ sensor_data.setHumid }} %</td>
@@ -28,9 +28,11 @@ export default {
     sensor_data: Object,
   },
   data: () => ({
-    htrtest:'title45646'
   }),
   methods: {
+    log(){
+      console.log(this.$el.children[0].table)
+    },
     // updateTitleSensor() {
     //   this.$emit("clickOnTitle", this.sensor_data.sensor_id)
     // },
