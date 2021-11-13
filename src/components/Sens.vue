@@ -4,8 +4,7 @@
       <SensorTHR v-for="(sens_data,index) in dataSensors"
                  v-bind:key="index"
                  v-bind:sensor_data="sens_data"
-                 @clickOnTitle="clickOnTitle"
-                 @clickOnTemper="$emit('clickOnTemper',$event)"
+                 @clickOnField="clickOnField"
       />
     </div>
     <!--    <div class="link" v-for="sensor in sensors">{{ sensor }}</div>-->
@@ -28,18 +27,13 @@ export default {
   }),
 
   methods: {
-    clickOnTitle(sensor_data, $event) {
-      this.$emit('clickOnTitle', sensor_data, $event)
+    clickOnField(sensor_data, $event) {
+      this.$emit('clickOnField', sensor_data, $event)
     },
-    setTitle(sensor_id, new_title) {
-      console.log(sensor_id)
+    setFieldName(sensor_id, filed_value, field_name) {
       let tmp = this.dataSensors.find(value => value.sensor_id === sensor_id)
-      console.log(tmp)
-      tmp.title = new_title
+      tmp[field_name] = filed_value
     },
-    // click(id) {
-    //   this.$emit("clickOnTitle", id)
-    // },
 
     async getSensorInfo(id) {
       try {
