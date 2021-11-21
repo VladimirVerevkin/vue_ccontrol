@@ -1,17 +1,13 @@
 <template>
   <div>
-    <Sens @clickOnField="updateField" ref="sens" />
-       <vodal :show="show" animation="rotate" @hide="clearSensorData" >
-          <h4> Задать имя датчика </h4>
-          <input type="text" v-model:value="sensor_data[edit_field]">
-          <button class="vodal-confirm-btn" @click="updateHandler">ok</button>
-          <button class="vodal-cancel-btn" @click="clearSensorData">close</button>
-       </vodal>
-
-<!--                <VodalForm v-bind:vodalPropsData="sensor_data" v-bind:vodalKeyBlock="this.keyBlock" /> &lt;!&ndash; v-bind:datapropsvodal="this.sensor_data" /> &ndash;&gt;&ndash;&gt;-->
-    <!--      <Vo<dalForm v-bind:vodalPropsData="sensor_data" v-bind:vodalKeyBlock="this.keyBlock" /> &lt;!&ndash; v-bind:datapropsvodal="this.sensor_data" /> &ndash;&gt;-->
-
-<!--    <VodalForm v-bind:show="show" v-bind:vodalPropsData="sensor_data" v-bind:vodalPropsText="textVodal" @upd="updateHandler" @clear="clearSensorData"/>-->
+    <Sens @clickOnSensor="clickOnSensor" ref="sens"/>
+    <vodal v-if="show" :show="true" animation="rotate" v-bind:width="600" v-bind:height="350" @hide="clearSensorData">
+      <SensorTHR_Form v-bind:params="sensor_data" ref="sensorTHR_Form"/>
+      <div class="mt-2" style="text-align: center">
+        <b-button class="me-4" variant="outline-success" @click="submitHandler">Принять</b-button>
+        <b-button variant="outline-warning">Закрыть</b-button>
+      </div>
+    </vodal>
   </div>
 </template>
 
@@ -19,14 +15,14 @@
 import axios from "axios"
 import Sens from '@/components/Sens'
 import MainMenu from "@/components/MainMenu"
-import VodalForm from "@/components/VodalForm";
+import SensorTHR_Form from "@/components/SensorTHR_Form";
 
 export default {
   name: 'Main',
   components: {
     MainMenu,
     Sens,
-    VodalForm,
+    SensorTHR_Form
   },
   data: () => ({
     show: false,
@@ -38,37 +34,48 @@ export default {
   }),
 
   methods: {
-    updateField(sensor_data, $event) {
-      this.edit_field = $event.target.dataset.field
-
-      this.sensor_data = JSON.parse(JSON.stringify(sensor_data))
-
-      // this.textVodal = "Ввести имя датчика"
-      // console.log(this.textVodal)
+    clickOnSensor(sensor_data) {
+      this.sensor_data = sensor_data
       this.show = true
-    },
-    updateSetTemper(sensor_data) {
-      console.log(sensor_data)
-      this.sensor_data = JSON.parse(JSON.stringify(sensor_data))
-
-      this.textVodal = 'Ввести значение температуры'
-      this.show = true
-    },
-
-    async updateHandler() {
-      try {
-        await axios.post('http://192.168.1.65:5000/update'+this.edit_field, [this.sensor_data.sensor_id,this.sensor_data[this.edit_field]])
-        this.$refs.sens.setFieldName(this.sensor_data.sensor_id, this.sensor_data[this.edit_field], this.edit_field)
-
-      } catch (e) {
-        console.log("Ошибка изменение тайтла")
-      } finally {
-        this.clearSensorData()
-      }
     },
     clearSensorData() {
       this.sensor_data = {}
       this.show = false
+    },
+    async submitHandler() {
+
+      function delay(delayInms) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve();
+          }, delayInms);
+        });
+      }
+
+      let new_sensor_data = this.$refs.sensorTHR_Form.getFormData();
+      this.show = false
+      let count=0
+      for (let key in this.sensor_data) {
+        if (this.sensor_data[key] !== new_sensor_data[key]) {
+          this.sensor_data[key]=new_sensor_data[key]
+          console.log(key)
+          await axios.post(process.env.VUE_APP_URL + '/update' + key, [this.sensor_data.sensor_id, new_sensor_data[key]])
+          await delay(3000)
+        }
+      }
+      // for (let key in this.sensor_data) {
+      //   if (this.sensor_data[key] !== new_sensor_data[key]){
+      //     setTimeout(async () => {
+      //       console.log(key)
+      //       await axios.post(process.env.VUE_APP_URL + '/update' + key, [this.sensor_data.sensor_id, new_sensor_data[key]])
+      //     }, 2000 * count); //скорость
+      //     count += 1;
+      //   }
+      // }
+
+
+      // сравнение
+      this.sensor_data = {}
     }
   }
 

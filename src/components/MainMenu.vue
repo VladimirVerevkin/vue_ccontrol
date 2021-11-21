@@ -1,27 +1,29 @@
 <template>
   <div>
-    <table class="menu_table">
-      <tr>
-        <td>
-          <router-link to="/">Главная</router-link>
-        </td>
-        <td>
-          <router-link to="/scan">Сканирование</router-link>
-        </td>
-      </tr>
-    </table>
+    <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand href="#">Настройки</b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item :active="$route.path==='/'" to="/">Главная</b-nav-item>
+          <b-nav-item :active="$route.path==='/scan'" to="/scan">Сканирование</b-nav-item>
+        </b-navbar-nav>
+
+      </b-collapse>
+    </b-navbar>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MainMenu"
+  name: "MainMenu",
+  mounted() {
+    console.log(this.$route.path);
+  }
 }
 </script>
 
 <style scoped>
-td, th {
-  height: 20px;
-  padding: 20px;
-}
 </style>

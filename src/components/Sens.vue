@@ -4,7 +4,7 @@
       <SensorTHR v-for="(sens_data,index) in dataSensors"
                  v-bind:key="index"
                  v-bind:sensor_data="sens_data"
-                 @clickOnField="clickOnField"
+                 @clickOnSensor="$emit('clickOnSensor', $event)"
       />
     </div>
     <!--    <div class="link" v-for="sensor in sensors">{{ sensor }}</div>-->
@@ -22,7 +22,7 @@ export default {
   },
 
   data: () => ({
-    sensors: [],
+    // sensors: [],
     dataSensors: []
   }),
 
@@ -35,14 +35,14 @@ export default {
       tmp[field_name] = filed_value
     },
 
-    async getSensorInfo(id) {
-      try {
-        let resp = await axios.get('http://192.168.1.65:5000/readSensor', {params: {id: id}})
-        return resp.data
-      } catch (e) {
-        console.log(e)
-      }
-    }
+    // async getSensorInfo(id) {
+    //   try {
+    //     let resp = await axios.get('http://192.168.1.65:5000/getLastOneSensor', {params: {id: id}})
+    //     return resp.data
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
   },
 
   // watch: {
@@ -53,12 +53,16 @@ export default {
 
   async mounted() {
     try {
-      let resp = await axios.get('http://192.168.1.65:5000/getSensors')
-      this.sensors = resp.data
-      for (const value of this.sensors) {
-        this.dataSensors.push(await this.getSensorInfo(value));
-      }
-      // console.log(this.dataSensors)
+      this.dataSensors = (await axios.get(process.env.VUE_APP_URL+'/getLastAllSensors')).data
+      console.log(this.dataSensors)
+
+    // console.log(process.env.VUE_APP_URL)
+    // try {
+    //   let resp = await axios.get(process.env.VUE_APP_URL+'/getSensors')
+    //   this.sensors = resp.data
+    //   for (const value of this.sensors) {
+    //     this.dataSensors.push(await this.getSensorInfo(value));
+    //   }
     } catch (e) {
       console.log("ШЕф всё пропало!")
     }

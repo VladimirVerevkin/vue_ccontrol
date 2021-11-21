@@ -36,7 +36,7 @@ export default {
     async Scan() {
       this.clearMassSensors()
       this.isScanning = true
-      let response = await axios.get('http://192.168.1.65:5000/scannSensors')
+      let response = await axios.get(process.env.VUE_APP_URL + '/scannSensors')
       this.sensors = response.data
       this.isScanning = false
       this.isFirst = 1
@@ -45,7 +45,7 @@ export default {
     },
     async Update() {
       try {
-        let response = await axios.post('http://192.168.1.65:5000/updateConnectSensors', this.sensors)
+        let response = await axios.post(process.env.VUE_APP_URL+'/updateConnectSensors', this.sensors)
         alert('Успешно')
       }
       catch (e) {
