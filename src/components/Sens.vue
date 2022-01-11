@@ -55,14 +55,6 @@ export default {
     try {
       this.dataSensors = (await axios.get(process.env.VUE_APP_URL+'/getLastAllSensors')).data
       console.log(this.dataSensors)
-
-    // console.log(process.env.VUE_APP_URL)
-    // try {
-    //   let resp = await axios.get(process.env.VUE_APP_URL+'/getSensors')
-    //   this.sensors = resp.data
-    //   for (const value of this.sensors) {
-    //     this.dataSensors.push(await this.getSensorInfo(value));
-    //   }
     } catch (e) {
       console.log("ШЕф всё пропало!")
     }

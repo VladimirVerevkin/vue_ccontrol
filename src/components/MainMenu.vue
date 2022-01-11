@@ -9,6 +9,8 @@
         <b-navbar-nav>
           <b-nav-item :active="$route.path==='/'" to="/">Главная</b-nav-item>
           <b-nav-item :active="$route.path==='/scan'" to="/scan">Сканирование</b-nav-item>
+<!--          <b-nav-item :active="$route.path==='/setnum'" to="/setnum">Присвоить номер</b-nav-item>-->
+
         </b-navbar-nav>
 
       </b-collapse>

@@ -27,10 +27,7 @@ export default {
   data: () => ({
     show: false,
     edit_field: '',
-    // textVodal: '',
     sensor_data: {},
-    // data: 0,
-    // keyBlock: '',
   }),
 
   methods: {
